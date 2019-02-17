@@ -1,0 +1,310 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "This is a sample Hotels API.",
+		"version": "1.0.0",
+		"title": "Hotel API"
+	},
+	"host": "localhost:3000",
+	"basePath": "/",
+	"consumes": [
+		"application/json",
+		"application/xml"
+	],
+	"produces": [
+		"application/json",
+		"application/xml"
+	],
+	"schemes": [
+		"http"
+	],
+	"paths": {
+		"/hotels": {
+			"get": {
+				"summary": "Find all hotels",
+				"description": "This method will return a list of hotels from BaaS datastore",
+				"parameters": [
+					{
+						"name": "stars",
+						"in": "query",
+						"description": "find hotels with specific stars rating",
+						"required": false,
+						"type": "integer"
+					},
+          {
+						"name": "name",
+						"in": "query",
+						"description": "find hotels with specific name",
+						"required": false,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successful operation",
+						"schema": {
+							"$ref": "#/definitions/Response"
+						}
+					},
+					"default": {
+						"description": "Error",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Create new hotel",
+				"description": "This method will create a new hotel",
+				"parameters": [
+					{
+						"name": "hotel",
+						"in": "body",
+						"description": "Create a new hotel",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/HotelCreateRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successfully created a hotel",
+						"schema": {
+							"$ref": "#/definitions/Response"
+						}
+					},
+					"default": {
+						"description": "Error",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			}
+		},
+		"/hotels/{id}": {
+			"get": {
+				"summary": "Get hotel by id",
+				"description": "This method will return a hotel by id",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Internal id",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successful operation",
+						"schema": {
+							"$ref": "#/definitions/Response"
+						}
+					},
+					"default": {
+						"description": "Error",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Edit a hotel",
+				"description": "Edit a hotel",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Internal id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "hotel",
+						"in": "body",
+						"description": "Edit hotel",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/HotelCreateRequest"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successfully created a hotel",
+						"schema": {
+							"$ref": "#/definitions/Response"
+						}
+					},
+					"default": {
+						"description": "Error",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete a hotel by id",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Internal id",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "successful operation",
+						"schema": {
+							"$ref": "#/definitions/Response"
+						}
+					},
+					"default": {
+						"description": "Error",
+						"schema": {
+							"$ref": "#/definitions/ErrorResponse"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"Response": {
+			"properties": {
+				"action": {
+					"type": "string"
+				},
+				"application": {
+					"type": "string"
+				},
+				"path": {
+					"type": "string"
+				},
+				"uri": {
+					"type": "string"
+				},
+				"entities": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Entity"
+					}
+				},
+				"timestamp": {
+					"type": "integer",
+					"format": "int64"
+				},
+				"duration": {
+					"type": "integer"
+				},
+				"organization": {
+					"type": "string"
+				},
+				"applicationName": {
+					"type": "string"
+				}
+			},
+			"example": {
+				"_id": "59f4c254c30b6ff800000002",
+				"id": "249942",
+				"name": "Hotel Stefanos",
+				"stars": 3,
+				"price": 994.18,
+				"image": "4900059_30_b.jpg",
+				"amenities": [
+					"safety-box",
+					"nightclub",
+					"deep-soaking-bathtub",
+					"beach",
+					"business-center"
+				]
+			}
+		},
+		"Hotels": {
+			"properties": {
+				"queryparams": {
+					"$ref": "#/definitions/QueryParams"
+				},
+				"entities": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Entity"
+					}
+				}
+			}
+		},
+		"QueryParams": {
+			"properties": {
+				"stars": {
+					"type": "integer"
+				},
+				"name": {
+					"type": "string"
+				}
+			}
+		},
+		"Entity": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"stars": {
+					"type": "integer"
+				},
+				"price": {
+					"type": "number",
+					"format": "float"
+				},
+				"image": {
+					"type": "integer"
+				},
+				"amenities": {
+					"type": "object"
+				}
+			}
+		},
+		"HotelCreateRequest": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"stars": {
+					"type": "integer"
+				},
+				"price": {
+					"type": "number",
+					"format": "float"
+				},
+				"image": {
+					"type": "integer"
+				},
+				"amenities": {
+					"type": "object"
+				}
+			}
+		},
+		"ErrorResponse": {
+			"required": [
+				"message"
+			],
+			"properties": {
+				"message": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
